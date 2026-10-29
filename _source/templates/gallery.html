@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import pic, icon, btn with context %}
+{% block main %}
+<section class="gallery-head" data-theme="light">
+  <div class="wrap">
+    <h1 class="page-title" data-split-lines>Moments made at Kalinaw</h1>
+    <p class="section-lede">Photos of the resort by day and by night, and of the celebrations guests have held here.</p>
+    <div class="filters" role="group" aria-label="Filter photos" data-filters>
+      {% for k, label in filters %}
+      <button type="button" class="filter" data-filter="{{ k }}" aria-pressed="{{ 'true' if k == 'all' else 'false' }}">{{ label }}<span class="filter__n">{{ counts[k] }}</span></button>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="gallery" data-theme="light" aria-label="Photos">
+  <ul class="masonry" data-masonry>
+    {% for slug, cat, cap in gallery %}
+    <li class="masonry__item" data-cat="{{ cat }}">
+      <button type="button" class="masonry__btn" data-lightbox="gallery" data-src="{{ slug }}" data-full="assets/img/{{ slug }}-{{ manifest[slug].widths[-1] }}.webp" data-cap="{{ cap }}" data-cursor="View">
+        {{ pic(slug, cap, '(min-width: 1100px) 30vw, (min-width: 700px) 45vw, 92vw') }}
+        <span class="masonry__cap">{{ cap }}</span>
+      </button>
+    </li>
+    {% endfor %}
+  </ul>
+  <p class="gallery__note wrap">More photos and reels on <a class="link" href="{{ site.facebook }}" target="_blank" rel="noopener">Facebook</a> and <a class="link" href="{{ site.instagram }}" target="_blank" rel="noopener">Instagram</a>.</p>
+</section>
+
+<dialog class="lightbox" data-lightbox-dialog aria-label="Photo viewer">
+  <div class="lightbox__stage"><img alt="" data-lb-img></div>
+  <p class="lightbox__cap" data-lb-cap></p>
+  <button class="lightbox__btn lightbox__close" type="button" data-lb-close aria-label="Close">{{ icon('close') }}</button>
+  <button class="lightbox__btn lightbox__prev" type="button" data-lb-prev aria-label="Previous photo">{{ icon('left') }}</button>
+  <button class="lightbox__btn lightbox__next" type="button" data-lb-next aria-label="Next photo">{{ icon('right') }}</button>
+</dialog>
+{% endblock %}

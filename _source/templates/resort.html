@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import pic, icon, btn with context %}
+{% block main %}
+
+<section class="page-hero" data-theme="dark">
+  <div class="page-hero__media" data-hero-zoom>{{ pic('pool-above-day', '', '100vw', '', True) }}</div>
+  <div class="page-hero__shade" aria-hidden="true"></div>
+  <div class="wrap page-hero__content">
+    <p class="page-hero__kicker" data-hero-fade>The resort</p>
+    <h1 class="page-hero__title" data-split-lines>The whole place is yours.</h1>
+    <p class="page-hero__lede" data-hero-fade>A two-storey, modern Filipino-inspired house wrapped around a heated pool, with a garden and nipa pavilion out back. Here is every space you get when you book.</p>
+  </div>
+</section>
+
+{# Day / night comparison, built from two photos taken from the same spot #}
+<section class="compare-wrap" data-theme="light" aria-labelledby="cmp-h">
+  <div class="wrap">
+    <div class="section-head section-head--row">
+      <h2 class="section-title" id="cmp-h" data-split-lines>Same courtyard, two moods</h2>
+      <p class="section-lede">Drag the handle to watch the courtyard go from bright afternoon to a blue-lit night.</p>
+    </div>
+    <div class="compare" data-compare style="--pos:50%">
+      <picture class="compare__img">
+        <source type="image/webp" srcset="assets/img/hero-night-1280.webp 1280w, assets/img/hero-night-1904.webp 1904w" sizes="(min-width: 1200px) 1200px, 100vw">
+        <img src="assets/img/hero-night-1280.jpg" alt="The courtyard pool at night, lit blue, with warm light in every window" width="1904" height="1238" loading="lazy">
+      </picture>
+      <picture class="compare__img compare__img--top">
+        <source type="image/webp" srcset="assets/img/hero-day-1280.webp 1280w, assets/img/hero-day-1904.webp 1904w" sizes="(min-width: 1200px) 1200px, 100vw">
+        <img src="assets/img/hero-day-1280.jpg" alt="The same courtyard by day: white walls, black window frames and a clear blue pool" width="1904" height="1238" loading="lazy">
+      </picture>
+      <span class="compare__tag compare__tag--l" aria-hidden="true">Day</span>
+      <span class="compare__tag compare__tag--r" aria-hidden="true">Night</span>
+      <span class="compare__handle" aria-hidden="true"><span></span></span>
+      <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Compare day and night views of the courtyard">
+    </div>
+  </div>
+</section>
+
+{# Space chapters #}
+<section class="chapters" data-theme="light" aria-label="Spaces">
+  {% for s in spaces %}
+  <article class="chapter {% if loop.index is even %}chapter--flip{% endif %}" id="{{ s.id }}">
+    <div class="chapter__media">
+      <div class="chapter__main" data-reveal>{{ pic(s.imgs[0], s.name, '(min-width: 900px) 58vw, 100vw') }}</div>
+      <div class="chapter__thumbs">
+        {% for i in s.imgs[1:] %}
+        <button type="button" class="chapter__thumb" data-lightbox="{{ s.id }}" data-src="{{ i }}" data-full="assets/img/{{ i }}-{{ manifest[i].widths[-1] }}.webp" data-cap="{{ s.name }}" aria-label="Open photo {{ loop.index + 1 }} of {{ s.name }}">{{ pic(i, '', '160px') }}</button>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="chapter__text">
+      <h2 class="chapter__title">{{ s.name }}</h2>
+      <p class="chapter__note">{{ s.note }}</p>
+      {% if s.id == 'pool' %}
+      <p>The main pool sits right beside a shallower kiddie pool, and both are heated. At night the underwater lights turn the whole courtyard blue.</p>
+      <p>House rule: no eating or drinking in the pool.</p>
+      {% elif s.id == 'garden' %}
+      <p>Out back, a lawn and a nipa-roofed pavilion host games, long lunches, wedding aisles and dinners under string lights.</p>
+      <p>Lounge sets line the garden wall, and the pavilion keeps tables dry if it drizzles.</p>
+      {% elif s.id == 'living' %}
+      <p>Glass doors open from the courtyard into an air-conditioned living room and dining hall, finished with rattan, warm wood floors and woven wall art.</p>
+      <p>It’s where parties move when it rains, and where breakfast happens the morning after.</p>
+      {% elif s.id == 'rooms' %}
+      <p>Three air-conditioned bedrooms: bunk rooms for the barkada and rattan rooms with queen beds for the celebrants.</p>
+      <p>Wedding parties use them as prep rooms and photo spots, since you book the entire house.</p>
+      {% elif s.id == 'videoke' %}
+      <p>The air-conditioned entertainment room has a TV and sound system for videoke. It’s enclosed, so the singing stays inside.</p>
+      <p>There’s also a billiards table and darts in the games corner.</p>
+      {% elif s.id == 'conference' %}
+      <p>A fully air-conditioned room with a TV and sound system, set up classroom-style or around one long table.</p>
+      <p>Hold your session here when it rains, or in the garden when it’s sunny.</p>
+      {% elif s.id == 'kitchen' %}
+      <p>A well-equipped kitchen with a long stone-topped counter, hot and cold water dispensers, and a BBQ grill for the ihaw-ihaw.</p>
+      <p>Cook yourselves, or let your caterer take over.</p>
+      {% endif %}
+    </div>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="amenities" data-theme="dark" aria-labelledby="am-h">
+  <div class="wrap">
+    <h2 class="section-title" id="am-h" data-split-lines>What’s included</h2>
+    <ul class="amenity-list" data-stagger>
+      {% for a, d in amenities %}
+      <li><span class="amenity-list__name">{{ a }}</span><span class="amenity-list__desc">{{ d }}</span></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="rules" data-theme="light" id="house-rules" aria-labelledby="rules-h">
+  <div class="wrap rules__inner">
+    <div class="rules__head">
+      <h2 class="section-title" id="rules-h" data-split-lines>House rules</h2>
+      <p class="section-lede">Twelve rules from the resort, to share with everyone on your guest list.</p>
+      <div class="rules__img" data-reveal>{{ pic('living-3', '', '(min-width: 900px) 30vw, 100vw') }}</div>
+    </div>
+    <ol class="rules__list">
+      {% for r in rules %}<li>{{ r }}</li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="cta-band" data-theme="dark">
+  <div class="cta-band__media">{{ pic('courtyard-night', '', '100vw') }}</div>
+  <div class="wrap cta-band__content">
+    <h2 class="cta-band__title" data-split-lines>See it for yourself.</h2>
+    <p>Ocular visits are by appointment. Message the resort to schedule one.</p>
+    <div class="cta-band__ctas">{{ btn('plan.html#inquire', 'Check your date', 'btn--sun') }}{{ btn('viber://chat?number=%2B639188008188', 'Viber the resort', 'btn--ghost-light') }}</div>
+  </div>
+</section>
+
+<dialog class="lightbox" data-lightbox-dialog aria-label="Photo viewer">
+  <div class="lightbox__stage"><img alt="" data-lb-img></div>
+  <p class="lightbox__cap" data-lb-cap></p>
+  <button class="lightbox__btn lightbox__close" type="button" data-lb-close aria-label="Close">{{ icon('close') }}</button>
+  <button class="lightbox__btn lightbox__prev" type="button" data-lb-prev aria-label="Previous photo">{{ icon('left') }}</button>
+  <button class="lightbox__btn lightbox__next" type="button" data-lb-next aria-label="Next photo">{{ icon('right') }}</button>
+</dialog>
+{% endblock %}

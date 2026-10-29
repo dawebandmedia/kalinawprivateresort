@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import pic, icon, btn with context %}
+{% block main %}
+
+<section class="page-hero" data-theme="dark">
+  <div class="page-hero__media" data-hero-zoom>{{ pic('gazebo-reception', '', '100vw', '', True) }}</div>
+  <div class="page-hero__shade" aria-hidden="true"></div>
+  <div class="wrap page-hero__content">
+    <p class="page-hero__kicker" data-hero-fade>Occasions</p>
+    <h1 class="page-hero__title" data-split-lines>A private place for life’s big days.</h1>
+    <p class="page-hero__lede" data-hero-fade>Birthdays, weddings, team outings and family weekends. At Kalinaw, every celebration feels beautifully your own.</p>
+    <nav class="occ-jump" aria-label="Jump to an occasion" data-hero-fade>
+      {% for o in occasions %}<a href="#{{ o.id }}">{{ o.title }}</a>{% endfor %}
+    </nav>
+  </div>
+</section>
+
+{% for o in occasions %}
+<section class="occ {% if loop.index is even %}occ--flip{% endif %}" id="{{ o.id }}" data-theme="light" aria-labelledby="{{ o.id }}-h">
+  <div class="wrap occ__inner">
+    <div class="occ__text">
+      <p class="occ__kicker">{{ o.kicker }}</p>
+      <h2 class="occ__title" id="{{ o.id }}-h" data-split-lines>{{ o.title }}</h2>
+      <p class="occ__lede">{{ o.lede }}</p>
+      {% for p in o.body %}<p>{{ p }}</p>{% endfor %}
+      <ul class="occ__points">{% for p in o.points %}<li>{{ p }}</li>{% endfor %}</ul>
+      {{ btn('plan.html?occasion=' ~ o.title|urlencode ~ '#inquire', 'Ask about ' ~ o.title|lower, 'btn--ink') }}
+    </div>
+    <div class="occ__stack" data-stack>
+      {% for i in o.imgs %}
+      <div class="occ__photo occ__photo--{{ loop.index }}" {% if loop.index > 1 %}data-parallax-y="{{ [-60,40,-30,70,-50,30][loop.index0] }}"{% endif %}>{{ pic(i, '', '(min-width: 900px) 30vw, 60vw') }}</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endfor %}
+
+<section class="suppliers" data-theme="dark" aria-labelledby="sup-h">
+  <div class="wrap suppliers__inner">
+    <div>
+      <h2 class="section-title" id="sup-h" data-split-lines>Bring your dream team.</h2>
+      <p class="section-lede">Kalinaw welcomes your trusted event suppliers, so you can personalize every detail. Just tell the resort who’s coming. Supplier fees are minimal.</p>
+    </div>
+    <ul class="suppliers__list" data-stagger>
+      <li>Caterers</li><li>Stylists and florists</li><li>Balloon and backdrop setups</li><li>Photo and video teams</li><li>Hair and makeup</li><li>Food carts and bars</li><li>Lights and sound</li><li>Hosts and performers</li>
+    </ul>
+  </div>
+</section>
+
+<section class="season" data-theme="light" aria-labelledby="season-h">
+  <div class="wrap season__inner">
+    <div class="season__img" data-reveal>{{ pic('christmas-party', '', '(min-width: 900px) 50vw, 100vw') }}</div>
+    <div>
+      <h2 class="section-title" id="season-h" data-split-lines>The -ber months fill up fast.</h2>
+      <p class="section-lede">Costume parties in October, Christmas parties in November and December, reunions over the holidays. Ask for available dates early.</p>
+      {{ btn('plan.html?occasion=Christmas%20party#inquire', 'Ask for year-end dates', 'btn--ink') }}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

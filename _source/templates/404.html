@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import pic, btn with context %}
+{% block main %}
+<section class="nf" data-theme="dark">
+  <div class="nf__media">{{ pic('pool-night-quiet', '', '100vw', '', True) }}</div>
+  <div class="wrap nf__content">
+    <h1 class="page-title" data-split-lines>This page took a night swim.</h1>
+    <p class="section-lede">We couldn’t find that page. The rest of the resort is right where you left it.</p>
+    <div class="nf__ctas">{{ btn('index.html', 'Back to home', 'btn--sun') }}{{ btn('plan.html#inquire', 'Check your date', 'btn--ghost-light') }}</div>
+  </div>
+</section>
+{% endblock %}

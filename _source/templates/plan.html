@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import pic, icon, btn with context %}
+{% block main %}
+
+<section class="plan-head" data-theme="light">
+  <div class="wrap plan-head__inner">
+    <div>
+      <h1 class="page-title" data-split-lines>Plan your visit</h1>
+      <p class="section-lede">Rates depend on your date and group, so Kalinaw sends them by message. Fill this in once and send it the way you like.</p>
+    </div>
+    <div class="plan-head__img" data-reveal>{{ pic('balcony-night', '', '(min-width: 900px) 36vw, 100vw', '', True) }}</div>
+  </div>
+</section>
+
+<section class="inquire" id="inquire" data-theme="light" aria-labelledby="inq-h">
+  <div class="wrap inquire__inner">
+    <form class="inq" data-inquiry novalidate>
+      <h2 class="inq__title" id="inq-h">Your inquiry</h2>
+
+      <fieldset class="inq__group">
+        <legend class="field__label">Occasion</legend>
+        <div class="chips">
+          {% for v in ['Birthday','Debut','Wedding','Teambuilding','Seminar','Reunion','Staycation','Christmas party','Other'] %}
+          <label class="chip"><input type="radio" name="occasion" value="{{ v }}"><span>{{ v }}</span></label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <fieldset class="inq__group">
+        <legend class="field__label">Type of stay</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="stay" value="Day use" checked><span>Day use</span></label>
+          <label class="chip"><input type="radio" name="stay" value="Overnight (2 PM to 11 AM)"><span>Overnight, 2 PM to 11 AM</span></label>
+          <label class="chip"><input type="radio" name="stay" value="Not sure yet"><span>Not sure yet</span></label>
+        </div>
+      </fieldset>
+
+      <div class="inq__row">
+        <label class="field"><span class="field__label">Preferred date</span><input type="date" name="date" data-min-today></label>
+        <label class="field"><span class="field__label">Backup date <em>(optional)</em></span><input type="date" name="date2" data-min-today></label>
+      </div>
+      <div class="inq__row">
+        <label class="field"><span class="field__label">Number of guests</span><input type="number" name="guests" min="1" max="300" inputmode="numeric" placeholder="e.g. 40"></label>
+        <label class="field"><span class="field__label">Your name</span><input type="text" name="name" autocomplete="name" placeholder="Juan dela Cruz"></label>
+      </div>
+
+      <fieldset class="inq__group">
+        <legend class="field__label">You’d also like to ask about <em>(optional)</em></legend>
+        <div class="chips chips--multi">
+          {% for v in ['An ocular visit','Bringing our own caterer','Other suppliers (styling, photo, sound)','Hiring the caretakers','Bringing pets','Extending check-out'] %}
+          <label class="chip"><input type="checkbox" name="extras" value="{{ v }}"><span>{{ v }}</span></label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <label class="field"><span class="field__label">Anything else <em>(optional)</em></span><textarea name="notes" rows="3" placeholder="Theme, timing, questions…"></textarea></label>
+    </form>
+
+    <aside class="ticket" aria-labelledby="ticket-h">
+      <div class="ticket__card" data-ticket>
+        <div class="ticket__top">
+          <h2 class="ticket__h" id="ticket-h">Your message</h2>
+          <pre class="ticket__msg" data-msg aria-live="polite"></pre>
+        </div>
+        <div class="ticket__bottom">
+          <div class="ticket__send">
+            <a class="send send--viber" href="viber://chat?number=%2B639188008188" data-send="viber">{{ icon('viber') }}<span>Send on Viber</span></a>
+            <a class="send" href="{{ site.messenger }}" target="_blank" rel="noopener" data-send="messenger">{{ icon('messenger') }}<span>Messenger</span></a>
+            <a class="send" href="sms:{{ site.phone_e164 }}" data-send="sms">{{ icon('sms') }}<span>Text</span></a>
+            <a class="send send--wide" href="mailto:{{ site.email }}" data-send="email">{{ icon('mail') }}<span>Email</span></a>
+          </div>
+          <button type="button" class="copy" data-copy>{{ icon('copy') }}<span>Copy message</span></button>
+          <p class="ticket__hint" data-hint>Viber opens a chat with {{ site.phone_display }}. The message is copied first, so just paste it in.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="steps" data-theme="dark" aria-labelledby="steps-h">
+  <div class="wrap">
+    <h2 class="section-title" id="steps-h" data-split-lines>How booking works</h2>
+    <ol class="steps__list" data-stagger>
+      {% for t, d in steps %}<li><h3>{{ t }}</h3><p>{{ d }}</p></li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="faq" data-theme="light" aria-labelledby="faq-h">
+  <div class="wrap faq__inner">
+    <div class="faq__head">
+      <h2 class="section-title" id="faq-h" data-split-lines>Good to know</h2>
+      <p class="section-lede">Answers from Kalinaw’s own posts and house rules. See all <a class="link" href="resort.html#house-rules">twelve house rules</a>.</p>
+    </div>
+    <div class="faq__list">
+      {% for q, a in faq %}
+      <details class="qa" {% if loop.first %}open{% endif %}>
+        <summary><span>{{ q }}</span>{{ icon('plus') }}</summary>
+        <div class="qa__a"><p>{{ a }}{% if 'sister' in a %} <a class="link" href="{{ site.sister_url }}" target="_blank" rel="noopener">See Amandari on Facebook</a>.{% endif %}</p></div>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="visit" data-theme="light" id="directions" aria-labelledby="visit-h">
+  <div class="wrap visit__inner">
+    <div class="visit__text">
+      <h2 class="section-title" id="visit-h" data-split-lines>Getting here</h2>
+      <address class="visit__addr">{% for l in site.address_lines %}{{ l }}<br>{% endfor %}</address>
+      <p>About an hour’s drive from Metro Manila, up in Antipolo: accessible, but far enough from the city.</p>
+      <div class="visit__btns">
+        {{ btn(site.maps_url, 'Google Maps', 'btn--ink', 'target="_blank" rel="noopener"') }}
+        {{ btn(site.waze_url, 'Waze', 'btn--line', 'target="_blank" rel="noopener"') }}
+      </div>
+      <h3 class="visit__h">Also in Antipolo</h3>
+      <ul class="visit__near"><li>Pinto Art Museum</li><li>Hinulugang Taktak</li><li>Boso-Boso Church</li></ul>
+    </div>
+    <div class="visit__map">
+      <iframe title="Map showing Kalinaw Private Resort in Antipolo" src="{{ site.map_embed }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="sister" data-theme="dark" aria-labelledby="sister-h">
+  <div class="wrap sister__inner">
+    <h2 class="sister__title" id="sister-h">Hosting a bigger crowd?</h2>
+    <p>For a bigger venue, visit Kalinaw’s sister resort, {{ site.sister_name }}.</p>
+    {{ btn(site.sister_url, 'Visit Amandari on Facebook', 'btn--ghost-light', 'target="_blank" rel="noopener"') }}
+  </div>
+</section>
+{% endblock %}

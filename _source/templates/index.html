@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import pic, icon, btn with context %}
+{% block preload %}
+<link rel="preload" as="image" href="assets/img/hero-day-1904.webp" type="image/webp" media="(min-width: 900px)">
+<link rel="preload" as="image" href="assets/img/hero-day-1280.webp" type="image/webp" media="(max-width: 899px)">
+{% endblock %}
+{% block main %}
+
+{# ================= HERO: the courtyard, day or night, by the clock in Antipolo ================= #}
+<section class="hero" data-theme="dark" data-hero>
+  <div class="hero__media" aria-hidden="true">
+    <picture class="hero__img hero__img--day">
+      <source type="image/webp" srcset="assets/img/hero-day-1280.webp 1280w, assets/img/hero-day-1904.webp 1904w" sizes="100vw">
+      <img src="assets/img/hero-day-1280.jpg" alt="" width="1904" height="1238" fetchpriority="high">
+    </picture>
+    <picture class="hero__img hero__img--night">
+      <source type="image/webp" srcset="assets/img/hero-night-1280.webp 1280w, assets/img/hero-night-1904.webp 1904w" sizes="100vw">
+      <img src="assets/img/hero-night-1280.jpg" alt="" width="1904" height="1238">
+    </picture>
+    <canvas class="hero__gl" data-hero-gl
+      data-day="assets/img/hero-day-1904.webp" data-day-sm="assets/img/hero-day-1280.webp"
+      data-night="assets/img/hero-night-1904.webp" data-night-sm="assets/img/hero-night-1280.webp"
+      data-mask="assets/img/hero-water-mask.png"></canvas>
+    <div class="hero__shade"></div>
+  </div>
+
+  <div class="hero__content">
+    <p class="hero__place" data-hero-fade>A modern Filipino-inspired private resort in Antipolo</p>
+    <h1 class="hero__title" data-split-lines>Your own resort in the hills of Antipolo.</h1>
+    <div class="hero__foot">
+      <p class="hero__lede" data-hero-fade>One group at a time. The heated pool, the garden and every room are yours alone, about an hour from Metro Manila.</p>
+      <div class="hero__ctas" data-hero-fade>
+        {{ btn('plan.html#inquire', 'Check your date', 'btn--sun') }}
+        {{ btn('resort.html', 'Walk through the resort', 'btn--ghost-light') }}
+      </div>
+    </div>
+  </div>
+
+  <div class="sky" data-hero-fade>
+    <p class="sky__now"><span data-clock-label>Antipolo</span> <time data-clock>&nbsp;</time></p>
+    <div class="sky__switch" role="group" aria-label="See the courtyard by day or by night">
+      <button type="button" class="sky__btn" data-sky="day" aria-pressed="true">Day</button>
+      <button type="button" class="sky__btn" data-sky="night" aria-pressed="false">Night</button>
+      <span class="sky__thumb" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <a class="scroll-cue" href="#intro" aria-label="Scroll to read more"><span></span></a>
+</section>
+
+{# ================= STATEMENT ================= #}
+<section class="intro" id="intro" data-theme="light">
+  <div class="wrap">
+    <p class="intro__statement" data-scrub-words>Kalinaw means peace. Book it, and the whole resort is yours: no other guests, no passersby, just you and your favourite people.</p>
+    <ul class="promises" data-stagger>
+      <li>
+        <h2 class="promises__h">The entire place</h2>
+        <p>Pool, garden, pavilion, three bedrooms, living and dining hall, conference room and videoke room, for one group only.</p>
+      </li>
+      <li>
+        <h2 class="promises__h">A heated pool</h2>
+        <p>The main pool and the kiddie pool are both heated, so rainy afternoons and cool nights are still pool weather.</p>
+      </li>
+      <li>
+        <h2 class="promises__h">Your own suppliers</h2>
+        <p>Bring the caterer, stylist and photographer you trust. Supplier fees are minimal.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+{# ================= A DAY AT KALINAW: pinned horizontal, the sky turns with the clock ================= #}
+<section class="day" data-day aria-labelledby="day-h">
+  <div class="day__sticky">
+    <div class="day__head">
+      <h2 class="day__title" id="day-h">A day and a night at Kalinaw</h2>
+      <div class="day__arc" aria-hidden="true">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="none"><path class="day__arc-path" d="M10 110 Q200 -60 390 110" fill="none"/></svg>
+        <span class="day__sun"></span>
+      </div>
+    </div>
+    <ol class="day__track" data-day-track>
+      {% for s in day %}
+      <li class="day__panel" data-hour="{{ s.hour }}">
+        <p class="day__time"><span>{{ s.time }}</span> {{ s.ampm }}</p>
+        <div class="day__img">{{ pic(s.img, '', '(min-width: 900px) 42vw, 86vw') }}</div>
+        <h3 class="day__h">{{ s.title }}</h3>
+        <p class="day__text">{{ s.text }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+{# ================= SPACES: hover list with a floating image ================= #}
+<section class="spaces" data-theme="light" aria-labelledby="spaces-h">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="section-title" id="spaces-h" data-split-lines>Every room is part of the party</h2>
+      <p class="section-lede">Seven spaces, indoors and out, so the plan survives any weather.</p>
+    </div>
+    <ul class="space-list" data-space-list>
+      {% for s in spaces %}
+      <li>
+        <a class="space-row" href="resort.html#{{ s.id }}" data-space-img="{{ s.img }}" data-cursor="Open">
+          <span class="space-row__thumb">{{ pic(s.img, '', '120px') }}</span>
+          <span class="space-row__name">{{ s.name }}</span>
+          <span class="space-row__note">{{ s.note }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="space-float" aria-hidden="true">
+      {% for s in spaces %}<div class="space-float__item" data-space="{{ s.img }}">{{ pic(s.img, '', '34vw') }}</div>{% endfor %}
+    </div>
+    <p class="spaces__more">{{ btn('resort.html', 'See every space', 'btn--ink', arrow=True) }}</p>
+  </div>
+</section>
+
+{# ================= OCCASIONS ================= #}
+<section class="occasions" data-theme="light" aria-labelledby="occ-h">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="section-title" id="occ-h" data-split-lines>Whatever brings you together</h2>
+    </div>
+  </div>
+  <div class="occ-grid">
+    {% for o in occasions %}
+    <a class="occ-card occ-card--{{ loop.index }}" href="occasions.html#{{ o.id }}" data-cursor="View">
+      <div class="occ-card__img" data-parallax>{{ pic(o.img, '', '(min-width: 900px) 50vw, 100vw') }}</div>
+      <div class="occ-card__text">
+        <h3 class="occ-card__title">{{ o.title }}</h3>
+        <p class="occ-card__kicker">{{ o.kicker }}</p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+{# ================= RAIN OR SHINE ================= #}
+<section class="rain" data-theme="dark" aria-labelledby="rain-h">
+  <div class="rain__media">
+    {{ pic('pool-night-2', '', '100vw', 'rain__pic') }}
+    <canvas class="rain__canvas" data-rain aria-hidden="true"></canvas>
+  </div>
+  <div class="wrap rain__content">
+    <h2 class="rain__title" id="rain-h" data-split-lines>Every season is pool season.</h2>
+    <p class="rain__text">Kalinaw’s pool and kiddie pool are heated, so a cloudy forecast doesn’t cancel the swim. Warm water, cool weather: Antipolo’s best combination.</p>
+    {{ btn('plan.html#inquire', 'Ask about -ber month dates', 'btn--ghost-light') }}
+  </div>
+</section>
+
+{# ================= REVIEWS ================= #}
+<section class="reviews" data-theme="light" aria-labelledby="rev-h">
+  <div class="wrap">
+    <div class="section-head section-head--row">
+      <h2 class="section-title" id="rev-h" data-split-lines>In their words</h2>
+      <p class="section-lede">94% of reviewers on Facebook recommend Kalinaw. A few of the notes guests sent after their stay.</p>
+    </div>
+  </div>
+  <div class="reviews__track" data-drag tabindex="0" aria-label="Guest reviews. Use arrow keys or drag to scroll." data-cursor="Drag">
+    {% for r in reviews %}
+    <figure class="review">
+      <p class="review__title">{{ r.title }}</p>
+      <blockquote class="review__quote"><p>{{ r.quote }}</p></blockquote>
+      <figcaption class="review__by"><span>{{ r.name }}</span>{{ r.org }}</figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+
+{# ================= MOMENTS MARQUEE ================= #}
+<section class="moments" data-theme="light" aria-labelledby="mom-h">
+  <div class="wrap section-head section-head--row">
+    <h2 class="section-title" id="mom-h" data-split-lines>Moments made here</h2>
+    {{ btn('gallery.html', 'Open the gallery', 'btn--ink', arrow=True) }}
+  </div>
+  <div class="marquee" data-marquee="1" aria-hidden="true">
+    <div class="marquee__row">
+      {% for g in ['debut-18','courtyard-night','wedding-aisle','teambuilding','pool-garden-day','bride-entourage','gazebo-blue-night','balloon-arch-pool'] %}<div class="marquee__item">{{ pic(g, '', '30vw') }}</div>{% endfor %}
+    </div>
+  </div>
+  <div class="marquee" data-marquee="-1" aria-hidden="true">
+    <div class="marquee__row">
+      {% for g in ['living','birthday-75','company-outing','leaf-room','gazebo-reception','pool-night','christmas-party','kitchen'] %}<div class="marquee__item">{{ pic(g, '', '30vw') }}</div>{% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ================= QUICK DATE CHECK ================= #}
+<section class="quick" data-theme="light" aria-labelledby="quick-h">
+  <div class="wrap quick__inner">
+    <div class="quick__media" data-reveal>{{ pic('courtyard-lights', '', '(min-width: 900px) 40vw, 100vw') }}</div>
+    <form class="quick__form" action="plan.html" method="get" data-quick>
+      <h2 class="section-title" id="quick-h">What are we celebrating?</h2>
+      <fieldset class="chips">
+        <legend class="sr">Occasion</legend>
+        {% for v in ['Birthday','Wedding','Teambuilding','Reunion','Staycation','Christmas party'] %}
+        <label class="chip"><input type="radio" name="occasion" value="{{ v }}" {% if loop.first %}checked{% endif %}><span>{{ v }}</span></label>
+        {% endfor %}
+      </fieldset>
+      <div class="quick__row">
+        <label class="field"><span class="field__label">Preferred date</span><input type="date" name="date" data-min-today></label>
+        <label class="field"><span class="field__label">Guests</span><input type="number" name="guests" min="1" max="300" inputmode="numeric" placeholder="e.g. 40"></label>
+      </div>
+      <button class="btn btn--ink" type="submit" data-magnetic><span>Continue</span></button>
+      <p class="quick__note">Next, you’ll pick how to send it: Viber, Messenger, text or email.</p>
+    </form>
+  </div>
+</section>
+
+{% endblock %}
