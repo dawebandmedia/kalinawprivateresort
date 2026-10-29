@@ -109,7 +109,7 @@ HOUSE_RULES = [
 
 OCCASIONS = [
     {'id': 'celebrations', 'title': 'Celebrations', 'kicker': 'Birthdays, debuts, milestones',
-     'img': 'balloons-poolside', 'imgs': ['balloons-poolside', 'debut-18', 'birthday-75', 'balloon-arch-pool', 'birthday-indoor', 'floral-throne'],
+     'img': 'balloons-poolside', 'imgs': ['balloons-poolside', 'debut-18', 'garden-party', 'balloon-arch-pool', 'birthday-indoor', 'floral-throne'],
      'lede': 'Celebrating at Kalinaw feels like celebrating at home: private, cozy and intimate.',
      'body': ['Kiddie parties by the pool, an 18th under the pavilion, a 75th with the whole clan. If it rains, the party moves into the air-conditioned living area.',
               'Bring the caterer, stylist and photographer you trust. The resort welcomes your suppliers, with minimal supplier fees.'],
@@ -185,7 +185,6 @@ GALLERY = [
     ('gazebo-reception', 'weddings', 'Reception under the nipa roof'),
     ('leaf-room', 'day', 'Bedroom with a leaf mural'),
     ('courtyard-lights', 'night', 'Courtyard lights'),
-    ('birthday-75', 'celebrations', 'A 75th birthday at night'),
     ('seminar', 'gatherings', 'A planning session in the hall'),
     ('kitchen', 'day', 'Kitchen and bar counter'),
     ('gown-poolside', 'weddings', 'Gown, before the ceremony'),
