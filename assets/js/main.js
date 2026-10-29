@@ -233,6 +233,7 @@
 
   safe('loader', function () {
     var loader = $('.loader');
+    if (G) G.set('.curtain', { y: 0, yPercent: 100 });
     var fromNav = store('kal-nav') === '1';
     store('kal-nav', '0');
     var curtain = $('.curtain');
