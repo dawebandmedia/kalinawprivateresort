@@ -655,7 +655,12 @@
   safe('filters', function () {
     var box = $('[data-filters]'); if (!box) return;
     var items = $$('.masonry__item');
-    if (motion) G.from(items, { y: 60, autoAlpha: 0, duration: 1.1, ease: 'expo.out', stagger: { each: 0.04, from: 'start' }, delay: 0.4 });
+    if (motion) {
+      G.set(items, { y: 50, autoAlpha: 0 });
+      ST.batch(items, { start: 'top 95%', once: true, onEnter: function (b) { G.to(b, { y: 0, autoAlpha: 1, duration: 1.1, ease: 'expo.out', stagger: 0.06, overwrite: true }); } });
+      // failsafe: never leave a photo hidden
+      window.addEventListener('load', function () { setTimeout(function () { items.forEach(function (it) { if (it.getBoundingClientRect().top < innerHeight && parseFloat(getComputedStyle(it).opacity) < 0.05 && !G.isTweening(it)) G.to(it, { y: 0, autoAlpha: 1, duration: 0.8 }); }); }, 1800); });
+    }
     box.addEventListener('click', function (e) {
       var b = e.target.closest('[data-filter]'); if (!b) return;
       var f = b.getAttribute('data-filter');
