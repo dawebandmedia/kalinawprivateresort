@@ -110,7 +110,7 @@
       // a sweeping horizon: night falls from the top-right, morning returns the same way
       ' float n=noise(st*vec2(6.,3.)+t*.15)*.12;',
       ' float edge=(1.-st.y)*.55+st.x*.45+n;',
-      ' float k=uMix*1.5-.25;',
+      ' float k=(1.-uMix)*1.5-.25;',
       ' float f=smoothstep(k-.16,k+.16,edge);',
       ' vec3 col=mix(a,b,f);',
       ' float band=(1.-abs(f-.5)*2.); band=band*band*(uMix>0.001&&uMix<.999?1.:0.);',
@@ -347,11 +347,12 @@
   safe('cursor', function () {
     if (!fine || reduce || !G) return;
     var c = $('.cursor'); if (!c) return;
-    html.classList.add('has-cursor');
+    html.classList.add('has-cursor'); c.classList.add('is-hidden');
     var dot = $('.cursor__dot', c), ring = $('.cursor__ring', c), label = $('.cursor__label', c);
     var dx = G.quickTo(dot, 'x', { duration: 0.08 }), dy = G.quickTo(dot, 'y', { duration: 0.08 });
     var rx = G.quickTo(ring, 'x', { duration: 0.45, ease: 'power3' }), ry = G.quickTo(ring, 'y', { duration: 0.45, ease: 'power3' });
     window.addEventListener('pointermove', function (e) {
+      if (!c._moved) { c._moved = true; G.set([dot, ring], { x: e.clientX, y: e.clientY }); }
       dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY);
       var t = e.target;
       var lab = t.closest && t.closest('[data-cursor]');
@@ -451,7 +452,7 @@
 
   /* --------------------------------------------- a day and a night */
   safe('day', function () {
-    var day = $('[data-day]'); if (!day) return;
+    var day = $('section.day'); if (!day) return;
     var track = $('[data-day-track]', day), panels = $$('.day__panel', day), sun = $('.day__sun', day);
     var hours = panels.map(function (p) { return parseFloat(p.getAttribute('data-hour')); });
     // sky keyframes: [hour, background, ink]
