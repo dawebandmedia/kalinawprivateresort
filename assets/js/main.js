@@ -324,20 +324,21 @@
   /* -------------------------------------------------------------- menu */
   safe('menu', function () {
     var btn = $('.menu-toggle'), menu = $('#menu'); if (!btn || !menu) return;
-    var bg = $('.menu__bg', menu), links = $$('.menu__nav a, .menu__foot a', menu);
+    var bg = $('.menu__bg', menu), mimg = $('.menu__img', menu), links = $$('.menu__nav a, .menu__foot a', menu);
     function open() {
       menu.hidden = false; html.classList.add('menu-open'); btn.setAttribute('aria-expanded', 'true');
       if (lenis) lenis.stop();
       if (motion) {
         G.fromTo(bg, { clipPath: 'circle(0% at calc(100% - 46px) 38px)' }, { clipPath: 'circle(150% at calc(100% - 46px) 38px)', duration: 0.9, ease: 'expo.inOut' });
         G.fromTo(links, { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, ease: 'expo.out', stagger: 0.05, delay: 0.3 });
+        if (mimg) G.fromTo(mimg, { autoAlpha: 0, scale: 1.1 }, { autoAlpha: 0.5, scale: 1, duration: 1.4, ease: 'expo.out', delay: 0.25 });
       } else { bg.style.clipPath = 'none'; }
       setTimeout(function () { var f = $('.menu__nav a', menu); if (f) f.focus(); }, 50);
     }
     function close() {
       btn.setAttribute('aria-expanded', 'false');
       var done = function () { menu.hidden = true; html.classList.remove('menu-open'); if (lenis) lenis.start(); };
-      if (motion) { G.to(links, { autoAlpha: 0, duration: 0.25 }); G.to(bg, { clipPath: 'circle(0% at calc(100% - 46px) 38px)', duration: 0.7, ease: 'expo.inOut', onComplete: done }); }
+      if (motion) { G.to(links, { autoAlpha: 0, duration: 0.25 }); if (mimg) G.to(mimg, { autoAlpha: 0, duration: 0.3 }); G.to(bg, { clipPath: 'circle(0% at calc(100% - 46px) 38px)', duration: 0.7, ease: 'expo.inOut', onComplete: done }); }
       else done();
     }
     btn.addEventListener('click', function () { btn.getAttribute('aria-expanded') === 'true' ? close() : open(); });
