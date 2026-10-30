@@ -224,7 +224,7 @@
     if (!motion) return;
     splits.forEach(function (el, i) { playLines(el, 0.05 + i * 0.1); });
     var fades = $$('[data-hero-fade]');
-    if (fades.length) G.fromTo(fades, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 1.2, ease: 'expo.out', stagger: 0.08, delay: 0.35 });
+    if (fades.length) G.fromTo(fades, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 1.2, ease: 'expo.out', stagger: 0.08, delay: 0.35, clearProps: 'transform' });
     var media = $('.hero__media');
     if (media) G.fromTo(media, { scale: 1.14 }, { scale: 1, duration: 2.4, ease: 'expo.out' });
     var zoom = $('[data-hero-zoom] .pic');
